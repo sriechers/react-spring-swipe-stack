@@ -1,3 +1,10 @@
+.react-swipestack-cards__deck {
+  height: 100%; 
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .react-swipestack-cards__card-wrapper {
   z-index: 10;
@@ -16,6 +23,11 @@
   background-color: rgb(13, 13, 14);
   height: 24rem;
   width: 16rem;
+  transition: box-shadow 0.5s ease-in-out;
+}
+
+.react-swipestack-cards__active-card {
+  box-shadow: 0 0 4rem 0 rgba(28, 28, 28, 0.2), 0 0.2rem 1rem 0 rgba(28, 28, 28, 0.3);
 }
 
 .react-swipestack-cards__card:not(.react-swipestack-cards__active-card)::before {

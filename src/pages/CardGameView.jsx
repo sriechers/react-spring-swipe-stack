@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import Deck from '../components/Deck'
+import React, { useState } from 'react'
+import Deck, { Card, CardButton } from '../components/Deck'
 
 const fakeData = [
   {
@@ -40,9 +40,8 @@ function Loader(){
   )
 }
 
-function CardGameView() {  
+function CardGameView() {   
   const [ cards, setCards ] = useState(fakeData)
-  const [ currentCard, setCurrentCard ] = useState(null);
 
   const fetchCards = () => {
     const t = setTimeout(()=>{
@@ -59,22 +58,15 @@ function CardGameView() {
     console.log("DISLIKE", card)
   }
 
-  // Evertime our current Card changes we run this effect
-  useEffect(() => {
-    currentCard && console.log("current card is: ", currentCard)
-  }, [currentCard])
-
   return (
-    <div className="relative flex fill center">
+    <div className="h-screen w-screen">
       <Deck 
         cards={cards} 
         fadeEffect={true}
         rotationFactor={2.3}
-        onDoubleClick={(card) => console.log("onDoubleClick", card)}
         transformStartValues={{
           y: 0,
           scale: 1.5,
-          // delay: 10000
         }}
         transformEndValues={{
           
@@ -83,9 +75,19 @@ function CardGameView() {
         onLike={(card) => onLike(card)} 
         onDislike={(card) => onDislike(card)} 
         onEmpty={fetchCards} 
-        onChange={setCurrentCard}
+        onChange={({cardStack, currentCard}) => console.log("cardStack, currentCard", cardStack, currentCard)}
         // onAnimation={({ x, rotation, scale }) => console.log(`Animating card { x: ${x}, rotation: ${rotation}, scale: ${scale}  } `)}
-        />
+      >
+        {cards.map(card => (
+          <Card key={card.id} img={card.img} buttonTextLike={'👍'} buttonTextDislike={'👎'}/>
+          // <React.Fragment key={card.id}>
+          //   <h1>test {card.id}</h1>
+          //   <img className="react-swipestack-cards__card-img" src={card.img.src} alt={card.img.alt}/>
+          //   <CardButton type={'dislike'}>dislike</CardButton>
+          //   <CardButton type={'like'}>like</CardButton>
+          // </React.Fragment>
+        ))}
+      </Deck>
     </div>
   )
 }
