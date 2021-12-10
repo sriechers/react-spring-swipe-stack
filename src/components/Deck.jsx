@@ -45,33 +45,35 @@ function Card({
   );
 }
 
-function CardButton({ type, ariaText, children }){
-  ariaText = ariaText || type
+function CardButton({ type, ariaText, children }) {
+  ariaText = ariaText || type;
 
   const context = useContext(DeckContext);
-  console.log("type", type.toLowerCase() === 'like' ? context.containerWidth + 200 : -(context.containerWidth + 200), children)
   if (!context) {
     throw new Error(`Card Components need to be inside of the Deck component`);
   }
 
-  return ( 
-  <button
-    aria-label={ariaText}
-    className={`react-swipestack-cards__button-${type}`}
-    disabled={context.cardIndex !== context.cardStack.length - 1}
-    onClick={() =>
-      context.animateCard({
-        index: context.cardIndex,
-        active: true,
-        mx: type.toLowerCase() === 'like' ? context.containerWidth + 200 : -(context.containerWidth + 200),
-        xDir: type.toLowerCase() === 'like' ? 1 : -1,
-        immediate: true,
-      })
-    }
-  >
-    {children}
-  </button>
-  )
+  return (
+    <button
+      aria-label={ariaText}
+      className={`react-swipestack-cards__button-${type}`}
+      disabled={context.cardIndex !== context.cardStack.length - 1}
+      onClick={() =>
+        context.animateCard({
+          index: context.cardIndex,
+          active: true,
+          mx:
+            type.toLowerCase() === "like"
+              ? context.containerWidth + 200
+              : -(context.containerWidth + 200),
+          xDir: type.toLowerCase() === "like" ? 1 : -1,
+          immediate: true,
+        })
+      }
+    >
+      {children}
+    </button>
+  );
 }
 // This is being used down there in the view
 // interpolates rotation and scale into a css transform
@@ -306,9 +308,14 @@ function Deck({
       if (index !== cardStack.length - 1) return;
       const trigger = vx > maxVelocity; // If you flick hard enough it should trigger the card to fly out
 
-      if (!active && trigger) flippedOutCards.add(index); // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+      // If button/finger's up and trigger velocity is reached, we flag the card ready to fly out
+      if (!active && trigger){
+        flippedOutCards.add(index)
+        animateCard({ index, active: true, mx, xDir, immediate: false });
+      } else {
+        animateCard({ index, active, mx, xDir, immediate: false });
+      } 
 
-      animateCard({ index, active, mx, xDir, immediate: false });
 
       // If Stack is empty
       if (!active && cardStack.length === minStackLength) {
@@ -316,7 +323,7 @@ function Deck({
           clearTimeout(t);
           flippedOutCards.clear();
           onEmpty();
-        }, 180);
+        }, debounceTime);
       }
     }
   );
