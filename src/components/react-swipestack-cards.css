@@ -1,0 +1,77 @@
+
+.react-swipestack-cards__card-wrapper {
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  will-change: transform;
+}
+
+
+.react-swipestack-cards__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  user-select: none;
+  background-color: rgb(13, 13, 14);
+  height: 24rem;
+  width: 16rem;
+}
+
+.react-swipestack-cards__card:not(.react-swipestack-cards__active-card)::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.7);
+} 
+
+.react-swipestack-cards__card:not(.react-swipestack-cards__active-card) .react-swipestack-cards__card-img {
+  filter: blur(2rem);
+}
+
+
+.react-swipestack-cards__card:not(.react-swipestack-cards__active-card) { 
+  opacity: calc((var(--react-swipestack-cards-id) + 1) / (var(--react-swipestack-cards-stack-length) + 1));
+}
+
+.react-swipestack-cards__card-img {
+  user-select: none;
+  pointer-events: none;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transform: scale(1.05);
+}
+
+.react-swipestack-cards__button-wrapper {
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+}
+
+.react-swipestack-cards__button-like, .react-swipestack-cards__button-dislike {
+  transition: all 150ms ease-out;
+  border-radius: 9999px;
+  height: 2.25rem;
+  padding: 0.25rem;
+  width: 2.25rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1);
+}
+
+.react-swipestack-cards__button-like:disabled, .react-swipestack-cards__button-dislike:disabled {
+  visibility: hidden;
+}
+
+.react-swipestack-cards__button-like:hover, .react-swipestack-cards__button-dislike:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.05);
+}
